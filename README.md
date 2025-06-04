@@ -1,7 +1,6 @@
 # OSINT
 A fully functional OSINT tool made using Python with APIs for a Cyber Security Technologies class at Illinois Tech.
 
-As part of our ITMS 448/548 
 ### Project Description:
 In this group assignment, you will collaboratively design, develop, and implement a custom open-source intelligent application in a high-level programming language such as Python. The application should feature a fully functional graphical user interface (GUI) and have the capability to retrieve and process data from at least four distinct data sources or APIs. You will be responsible for creating a comprehensive project plan, risk management plan, earned value sheet, and project management plan. Additionally, you will perform data analysis on the captured data and present your findings. All code developed should be hosted on GitHub for version control and collaborative development.
 
