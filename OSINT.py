@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox, simpledialog
+import requests
 
 class OSINTApp:
     """
     A simple OSINT (Open Source Intelligence) application with GUI using Tkinter.
+    The program will feature API's to pull website placement 
     """
     def __init__(self, master):
         """
@@ -43,12 +45,12 @@ class OSINTApp:
         input_frame.grid(row=2, column=0, padx=20, pady=10, sticky="ew")
         input_frame.grid_columnconfigure(1, weight=1) # Allow the entry field to expand
 
-        tk.Label(input_frame, text="Enter the Facebook link:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
-        self.fb_entry = ttk.Entry(input_frame, width=60) # Use ttk.Entry for modern look
-        self.fb_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
-        self.fb_entry.bind("<Return>", lambda event: self._analyze_data()) # Bind Enter key to analysis
+        tk.Label(input_frame, text="Enter the Business's Website Link:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
+        self.yelp_entry = ttk.Entry(input_frame, width=60) # Use ttk.Entry for modern look
+        self.yelp_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+        self.yelp_entry.bind("<Return>", lambda event: self._analyze_data()) # Bind Enter key to analysis
 
-        analyze_button = ttk.Button(input_frame, text="Analyze Data", command=self._analyze_data)
+        analyze_button = ttk.Button(input_frame, text="Analyze Data", command=self._analyze_data(yelp_entry))
         analyze_button.grid(row=1, column=0, columnspan=2, pady=10) # Span across both columns
 
         # --- Results Display Frame ---
@@ -71,50 +73,24 @@ class OSINTApp:
         self.status_bar = ttk.Label(self.master, text="Ready", relief=tk.SUNKEN, anchor=tk.W)
         self.status_bar.grid(row=4, column=0, sticky="ew", padx=20, pady=(5, 10))
 
-    def _analyze_data(self):
-        """
-        This is where API logic will go.
-        """
-        facebook_link = self.fb_entry.get().strip() # Removes any accidental whitespace characters
 
-        if not facebook_link:
-            messagebox.showwarning("Input Error", "Please enter a Facebook link to analyze.")
-            self.status_bar.config(text="Error: No link entered.")
-            return
 
-        self.status_bar.config(text=f"Analyzing: {facebook_link}...")
-        self._append_to_results(f"\n--- Analyzing Facebook Link: {facebook_link} ---\n")
+def _analyze_data(self, yelp_url):    
+    url = "https://yelp-business-api.p.rapidapi.com/reviews"
+    
+    querystring = {"business_url":yelp_url,"reviews_per_page":"10","sort_by":"Yelp_sort","rating_filter":"All_ratings"}
+    
+    headers = {
+    	"x-rapidapi-key": "24487241e5msh7d9e4ee01600512p1b9d7ejsn6b28ebd02ccf",
+    	"x-rapidapi-host": "yelp-business-api.p.rapidapi.com"
+    }
+    
+    yelp_response = requests.get(url, headers=headers, params=querystring)
+    text += yelp_response.json())
 
-        # --- OSINT LOGIC ---
-        # Replace this section with OSINT functions.
-        try:
-
-            if "facebook.com/" in facebook_link:
-                simulated_output = f"""
-                [Simulated Analysis Results for {facebook_link}]
-
-                - Profile Type: Public (simulated)
-                - Last Active: Recently (simulated)
-                - Associated Names: John Doe, Jane Smith (simulated)
-                - Public Posts: 150 (simulated)
-                - Friends Count: 1200 (simulated)
-                - Potential Location: New York, USA (simulated)
-
-                Further details from your OSINT modules would appear here.
-                """
-            else:
-                simulated_output = f"""
-                [Error] The provided link '{facebook_link}' does not appear to be a valid Facebook URL.
-                Please ensure it contains 'facebook.com/'.
-                """
-            self._append_to_results(simulated_output)
-            self.status_bar.config(text=f"Analysis complete for: {facebook_link}")
-
-        except Exception as e:
-            error_message = f"An error occurred during analysis: {e}"
-            self._append_to_results(f"\n--- ERROR ---\n{error_message}\n")
-            self.status_bar.config(text=f"Analysis failed: {e}")
-            messagebox.showerror("Analysis Error", error_message)
+    
+    
+    
 
     def _append_to_results(self, text):
         """
@@ -135,7 +111,7 @@ class OSINTApp:
         self.results_text.insert(tk.END, "Results cleared. Ready for new analysis.\n")
         self.results_text.config(state=tk.DISABLED)
         self.status_bar.config(text="Ready")
-        self.fb_entry.delete(0, tk.END) # Also clear the input field
+        self.yelp_entry.delete(0, tk.END) # Also clear the input field
 
 # Main execution block
 if __name__ == "__main__":
