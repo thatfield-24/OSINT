@@ -86,7 +86,7 @@ def _analyze_data(self, yelp_url):
     }
     
     yelp_response = requests.get(url, headers=headers, params=querystring)
-    text += yelp_response.json())
+    text += yelp_response.json()
 
     
     
