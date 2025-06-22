@@ -152,7 +152,32 @@ class OSINTApp:
         except Exception as e:
             self._append_to_results(f"🚨 Error parsing JSON: {e}")
             
-    
+    def _get_rankings(self, imdb_id)
+        url = "https://imdb232.p.rapidapi.com/api/title/get-ratings"
+
+        querystring = {"tt":imdb_id}
+
+        headers = {
+                "x-rapidapi-key": "24487241e5msh7d9e4ee01600512p1b9d7ejsn6b28ebd02ccf",
+                "x-rapidapi-host": "imdb232.p.rapidapi.com"
+        }
+
+        response = requests.get(url, headers=headers, params=querystring)
+        
+        try:
+
+            f = io.BytesIO(response.content) 
+            data = next(ijson.items(f, '', use_float=True))  # Parse the root object
+
+            rating = data.get('rating summary', 'No rating information found.')
+            self._append_to_results(f"\nAverage Rating: {rating}")
+            votes = data.get('voteCount', 'No votes found.')
+            self._append_to_results(f"\n Vote Count: {votes}")
+            ranking = data.get('topRanking', 'No ranking information found.')
+            self._append_to_results(f"\nRank: {ranking}")
+                                    
+        except Exception as e:
+            self._append_to_results(f"🚨 Error parsing JSON: {e}")
                                 
     def _append_to_results(self, text):
         """
