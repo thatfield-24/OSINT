@@ -79,18 +79,13 @@ class OSINTApp:
 
     def _analyze_data(self):    
         stream_api = "https://streaming-availability.p.rapidapi.com/shows/search/title"
-
         stream_url = self.stream_entry.get()
-
         stream_querystring = {"country":"US","title":stream_url,"output_language":"en"}
-
         stream_headers = {
                 "x-rapidapi-key": "24487241e5msh7d9e4ee01600512p1b9d7ejsn6b28ebd02ccf",
                 "x-rapidapi-host": "streaming-availability.p.rapidapi.com"
         }
-
         response = requests.get(stream_api, headers=stream_headers, params=stream_querystring)
-        
         
         f = io.BytesIO(response.content)
         try:
@@ -120,21 +115,19 @@ class OSINTApp:
 
             
     def _trailer_api(self, imdb_id):
-        imdb_id = imdb_id
         url = f"https://imdb236.p.rapidapi.com/api/imdb/{imdb_id}"
-
         headers = {
                 "x-rapidapi-key": "24487241e5msh7d9e4ee01600512p1b9d7ejsn6b28ebd02ccf",
                 "x-rapidapi-host": "imdb236.p.rapidapi.com"
         }
-
         response = requests.get(url, headers=headers)
-        try:
-            items = ijson.items(f, 'item')  # Root-level list of items
 
-            for item in items:
-                trailer = item.get('trailer', 'Unknown Trailer')
-                self._append_to_results(f"\n🎬 Trailer: {trailer}")
+        try:
+            f = io.BytesIO(response.content) 
+            data = next(ijson.items(f, '', use_float=True))  # Parse the root object
+
+            trailer = data.get('trailer', 'No trailer information found.')
+            self._append_to_results(f"\n🎬 Trailer: {trailer}")
                 
         except Exception as e:
             self._append_to_results(f"🚨 Error parsing JSON: {e}")
