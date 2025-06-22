@@ -7,7 +7,7 @@ import io
 class OSINTApp:
     """
     A simple OSINT (Open Source Intelligence) application with GUI using Tkinter.
-    The program will feature API's to pull website placement 
+    The program will feature API's to pull movie information.  
     """
     def __init__(self, master):
         """
@@ -17,8 +17,8 @@ class OSINTApp:
         """
         self.master = master
         self.master.title("Custom OSINT Tool")
-        self.master.geometry('960x720')
-        self.master.configure(bg="#fffdca") # Background color
+        self.master.geometry('1366x768')
+        self.master.configure(bg="#71a3c1") # Background color
 
         # Configure grid weights for responsive layout
         # This makes the columns and rows expand proportionally when the window is resized.
@@ -34,17 +34,20 @@ class OSINTApp:
 
     def _create_widgets(self):
         # --- Title and Developer Info ---
-        tk.Label(self.master, text="Custom OSINT Tool", bg="#fffdca", font=("Times New Roman", 16, "bold")).grid(
+        tk.Label(self.master, text="Movie OSINT Tool", bg="#71a3c1", font=("Times New Roman", 24, "bold")).grid(
             row=0, column=0, pady=(10, 0), sticky="n" # Centered at the top
         )
-        tk.Label(self.master, text="This tool was designed by Tristan Hatfield and developed by Tristan Hatfield, Petra Kelly, Bryan Bachleda, Adam Lazarowicz", bg="#fffdca").grid(
+        tk.Label(self.master, text="This tool was designed by Tristan Hatfield and programmed by Tristan Hatfield, Petra Kelly, Bryan Bachleda, Adam Lazarowicz", bg="#71a3c1", font=("Times New Roman", 14)).grid(
             row=1, column=0, pady=(0, 10), sticky="n" # Below the title
+        )
+        tk.Label(self.master, text="The tool will ask for a movie name from the user, then it will provide possible Movie Names, IMDB Information, Where to Stream, and a Movie Trailer. ", bg="#71a3c1", font=("Times New Roman", 14)).grid(
+            row=2, column=0, pady=(0, 10), sticky="n" # Below the title
         )
 
         # --- Input Frame ---
         # This frame will hold the link entries for the APIs and the Analyze button.
         input_frame = ttk.LabelFrame(self.master, text="Analysis", padding="10 10 10 10")
-        input_frame.grid(row=2, column=0, padx=20, pady=10, sticky="ew")
+        input_frame.grid(row=3, column=0, padx=20, pady=10, sticky="ew")
         input_frame.grid_columnconfigure(1, weight=1) # Allow the entry field to expand
 
         tk.Label(input_frame, text="Enter the Movie Title:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
@@ -52,13 +55,13 @@ class OSINTApp:
         self.stream_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         self.stream_entry.bind("<Return>", lambda event: self._analyze_data()) # Bind Enter key to analysis
 
-        analyze_button = ttk.Button(input_frame, text="Analyze Data", command=self._analyze_data)
+        analyze_button = ttk.Button(input_frame, text="Find Movies", command=self._analyze_data)
         analyze_button.grid(row=1, column=0, columnspan=2, pady=10) # Span across both columns
 
         # --- Results Display Frame ---
         # This frame will contain the scrolled text area for displaying results.
         results_frame = ttk.LabelFrame(self.master, text="Results", padding="10 10 10 10")
-        results_frame.grid(row=3, column=0, padx=20, pady=10, sticky="nsew")
+        results_frame.grid(row=4, column=0, padx=20, pady=10, sticky="nsew")
         results_frame.grid_rowconfigure(0, weight=1) # Make the text area expand vertically
         results_frame.grid_columnconfigure(0, weight=1) # Make the text area expand horizontally
 
@@ -70,10 +73,6 @@ class OSINTApp:
         # Clear Results Button
         clear_button = ttk.Button(results_frame, text="Clear Results", command=self._clear_results)
         clear_button.grid(row=1, column=0, pady=(10, 0)) # Below the text area
-
-        # --- Status Bar ---
-        self.status_bar = ttk.Label(self.master, text="Ready", relief=tk.SUNKEN, anchor=tk.W)
-        self.status_bar.grid(row=4, column=0, sticky="ew", padx=20, pady=(5, 10))
 
 
 
@@ -98,6 +97,7 @@ class OSINTApp:
                 imdb_id = item.get('imdbId', 'Unknown ID')
                 self._append_to_results(f"\n🎬 IMDB ID: {imdb_id}")
                 self._trailer_api(imdb_id)
+                self._movie_info(imdb_id)
                                    
                 # Handle streaming options for US
                 us_streams = item.get('streamingOptions', {}).get('us', [])
@@ -131,8 +131,10 @@ class OSINTApp:
                 
         except Exception as e:
             self._append_to_results(f"🚨 Error parsing JSON: {e}")
-
-        
+    
+    
+    
+                                
     def _append_to_results(self, text):
         """
         Appends text to the results display area.
