@@ -133,7 +133,7 @@ class OSINTApp:
             self._append_to_results(f"🚨 Error parsing JSON: {e}")
     
     
-    def _movie_info(self, imdb_id)
+    def _movie_info(self, imdb_id):
         url = f"http://www.omdbapi.com/?i={imdb_id}&apikey=a0ff5593"
 
         response = requests.get(url)
@@ -145,14 +145,14 @@ class OSINTApp:
             date = data.get('Released', 'No release date information found.')
             self._append_to_results(f"\nReleased: {date}")
             plot = data.get('Plot', 'No plot information found.')
-            self._append_to_results(f"\nPlot: {plot}')
+            self._append_to_results(f"\nPlot: {plot}")
             cast = data.get('Actors', 'No actor information found.')
             self._append_to_results(f"\nCast: {cast}")
                                     
         except Exception as e:
             self._append_to_results(f"🚨 Error parsing JSON: {e}")
             
-    def _get_rankings(self, imdb_id)
+    def _get_rankings(self, imdb_id):
         url = "https://imdb232.p.rapidapi.com/api/title/get-ratings"
 
         querystring = {"tt":imdb_id}
