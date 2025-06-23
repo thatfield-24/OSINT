@@ -105,7 +105,7 @@ class OSINTApp:
                 self._trailer_api(imdb_id)
                 self._movie_info(imdb_id)
                 self._get_rankings(imdb_id)
-                                   
+                                 
                 # Handle streaming options for US
                 us_streams = item.get('streamingOptions', {}).get('us', [])
                 if us_streams:
