@@ -4,6 +4,12 @@ import requests
 import ijson
 import io
 
+pip install tkinter
+pip install requests
+pip install ijson
+pip install io
+
+
 class OSINTApp:
     """
     A simple OSINT (Open Source Intelligence) application with GUI using Tkinter.
@@ -98,6 +104,7 @@ class OSINTApp:
                 self._append_to_results(f"\n🎬 IMDB ID: {imdb_id}")
                 self._trailer_api(imdb_id)
                 self._movie_info(imdb_id)
+                self._get_rankings(imdb_id)
                                    
                 # Handle streaming options for US
                 us_streams = item.get('streamingOptions', {}).get('us', [])
