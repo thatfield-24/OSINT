@@ -1,3 +1,8 @@
+# Python dependencies for the project
+
+# run: `pip install -r requirements.txt` to install the packages
+
+
 requests
 pandas
 matplotlib
