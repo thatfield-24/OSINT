@@ -4,13 +4,15 @@ import requests
 import threading
 import csv
 from decimal import Decimal, InvalidOperation
-
-# --- Required for Analysis Feature ---
 import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image, ImageTk
 
 class OSINTApp:
+    """
+    A simple OSINT (Open Source Intelligence) application with GUI using Tkinter.
+    The program will feature API's to pull movie information and rankings.
+    """
     def __init__(self, master):
         self.master = master
         self.master.title("Movie OSINT & Analysis Tool")
@@ -48,9 +50,6 @@ class OSINTApp:
         }
 
         self._create_widgets()
-
-        if self.tmdb_api_key == "PASTE_YOUR_TMDB_API_KEY_HERE" or self.rapidapi_key == "PASTE_YOUR_RAPIDAPI_KEY_HERE":
-            messagebox.showwarning("API Keys Missing", "Please open the script and replace the placeholder API keys.")
 
     def _create_widgets(self):
         title_frame = ttk.Frame(self.master, style="TFrame")
