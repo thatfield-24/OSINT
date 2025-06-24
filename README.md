@@ -1,7 +1,7 @@
 # OSINT
 A fully functional OSINT tool made using Python with APIs for a Cyber Security Technologies class at Illinois Tech.
 
-The tool focuses on the Internet Movie Database or (IMDB) catalog of movies. It asks for user input for keywords of a movie and returns a list of possible movies, with the correlating IMDB ID, movie trailer, where to stream the movie, cast, ratings, and IMDB ranking. 
+The tool focuses on the Internet Movie Database (IMDB) and the The Movie Database (TMDB) catalog of movies. It asks for user input for keywords of a movie and returns a list of possible movies, with the correlating IMDB ID, movie trailer, where to stream the movie, cast, ratings, and IMDB ranking. Additionally there is an API to search for the top 10 movies in a year and an API to give a top 10 list of genres from a given year.  
 
 
 ### Project Description:
